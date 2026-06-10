@@ -106,16 +106,19 @@ Outcome on the dashboard: one invoice per order, for example 1 vetted at GBP 25 
 
 ## Tech stack
 
-Chosen for build speed and clean screen-sharing.
+Built on the chowbea/loyalty stack (TanStack Start + Convex). Chosen for a reactive, demo-friendly UI where the dashboard updates live as the agent acts, plus clean screen-sharing.
 
-- Python with Streamlit, single app. Fast to build, trivial to demo, easy to show a live table.
-- Claude API for drafting the emails (and optionally the take-home review if kept real).
-- Gmail API through a dedicated demo Gmail account that acts as the agent sender.
-- SQLite for the database, rendered as the dashboard table.
-- Paid Python SDK for the money loop.
-- GitHub API only if the review is kept real (fetch a few key files from the public repo). Not needed if the review is faked.
+- TanStack Start + React 19 + Vite + TypeScript, single app with file-based routing. Hosts the Setup and Dashboard screens.
+- Convex for the backend: database, server functions, scheduled functions, and HTTP endpoints. The candidate pipeline lives here and the frontend subscribes to it, so dashboard state transitions render live with no polling.
+- Convex actions (Node runtime) host the external integrations:
+  - Claude API for drafting the personalised outreach emails (real LLM call), and optionally the take-home review (real call with a hardcoded fallback).
+  - Gmail API through a dedicated demo Gmail account that acts as the agent sender; used to send emails and read replies.
+  - Paid SDK for the money loop: product/order setup and firing usage plus outcome signals.
+  - GitHub API only if the review is kept real (fetch a few key files from the public repo). Not needed if the review is faked.
+- shadcn/ui + Tailwind CSS v4 for components and styling.
+- Convex Cloud deployment: dutiful-giraffe-487.
 
-Email reliability requirement: include a manual "sync inbox" action so a slow candidate reply never strands the demo, with a fallback field to paste the repo link directly.
+Email reliability requirement: include a manual "sync inbox" action (a Convex action that polls Gmail) so a slow candidate reply never strands the demo, with a fallback field to paste the repo link directly.
 
 ## Build order
 
