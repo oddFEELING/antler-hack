@@ -13,3 +13,8 @@ todos.json
 
 # typescript
 *.tsbuildinfo
+
+# local verification artifacts (dev screenshots, playwright output)
+.playwright-mcp/
+/*.png
+/*.jpeg
