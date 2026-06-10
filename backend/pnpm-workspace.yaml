@@ -1,0 +1,5 @@
+# Explicitly permit packages to run lifecycle (build) scripts during install.
+# pnpm v10+ blocks build scripts by default for supply-chain safety.
+allowBuilds:
+  # Compiles a native resolver binary used by the ESLint import resolver.
+  unrs-resolver: true
